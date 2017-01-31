@@ -1,6 +1,8 @@
 <?php
 
-include db_market.php;
+include 'header.php';
+
+print_r($actions->arrTracked);
 
 
 ?>

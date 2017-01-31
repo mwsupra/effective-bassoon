@@ -1,0 +1,5 @@
+import.php
+* Fix avg price division by 0
+
+index.php
+* Pull and display skins in friendly interface
