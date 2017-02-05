@@ -1,7 +1,4 @@
 <?php
-
-include('header.php');
-
 $arrInterested = $actions->getInterested();
 
 echo "<table>";
