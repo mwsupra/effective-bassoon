@@ -73,8 +73,9 @@ class Actions extends Functions {
 		//$this->arrTracked = $this->getTracked();
 		$this->updateInterested();
 	}
-	
-
+	public function getSkinList() {
+		return file_get_contents($this->functions->marketdb->api);
+	}
 	public function getInterested() {
 		$sql = "SELECT * FROM `$GLOBALS[listTable]` WHERE active = 1";
 		return $this->fetch_all($this->query($sql));
