@@ -74,12 +74,12 @@ class Actions extends Functions {
 	}
 	
 	protected function getTracked() {
-		$sql = "SELECT * FROM `$GLOBALS['listTable']` WHERE active = 1";
+		$sql = "SELECT * FROM `$GLOBALS[listTable]` WHERE active = 1";
 		return $this->fetch_all($this->query($sql));
 	}
 	
 	public function getExcluded() {
-		$sql = "SELECT link FROM `$GLOBALS['listTable']` WHERE market_id IS NOT NULL AND 30day_price IS NOT NULL AND 30day_count IS NOT NULL";
+		$sql = "SELECT link FROM `$GLOBALS[listTable]` WHERE market_id IS NOT NULL AND 30day_price IS NOT NULL AND 30day_count IS NOT NULL";
 		return $this->fetch_all($this->query($sql));
 	}
 }
