@@ -10,7 +10,7 @@ foreach ($arrSkins->items AS $skin) {
 	$name = $actions->functions->str_clean($skin->market_name);
 	$url = urlencode($name);
 	$url = str_replace('+','%20',$url);
-	if ((substr($url, -3) == '%29' || substr($url,0,9) != '%E2%98%85') && !strpos($name, 'Souvenir')) {  // These cases should separate out only non souvenir gun skins
+	if ((substr($url, -3) == '%29' || substr($url,0,9) != '%E2%98%85') && !strpos($name, 'Souvenir') && !strpos($url, 'Holo%2FFoil')) {  // These cases should separate out only non souvenir gun skins
 		$arrClean[$url] = $name;
 	} 
 }
