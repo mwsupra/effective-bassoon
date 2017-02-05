@@ -84,5 +84,6 @@ class Actions extends Functions {
 		foreach ($results AS $result) {
 			$arrReturn[] = $result['link'];
 		}
+		return $arrReturn;
 	}
 }
