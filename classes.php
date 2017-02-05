@@ -70,10 +70,12 @@ class Actions extends Functions {
 	
 	function __construct() {
 		$this->functions = new Functions();
-		$this->arrTracked = $this->getTracked();
+		//$this->arrTracked = $this->getTracked();
+		$this->updateInterested();
 	}
 	
-	protected function getTracked() {
+
+	public function getInterested() {
 		$sql = "SELECT * FROM `$GLOBALS[listTable]` WHERE active = 1";
 		return $this->fetch_all($this->query($sql));
 	}
@@ -85,5 +87,10 @@ class Actions extends Functions {
 			$arrReturn[] = $result['link'];
 		}
 		return $arrReturn;
+	}
+	
+	protected function updateInterested() {
+		$sql = "UPDATE `skin_list` SET `active`= 1 WHERE `30day_price` >= $GLOBALS[lowPrice] AND `30day_price` <= $GLOBALS[highPrice]";
+		$this->query($sql);
 	}
 }
