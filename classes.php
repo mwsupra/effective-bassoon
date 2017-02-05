@@ -80,6 +80,9 @@ class Actions extends Functions {
 	
 	public function getExcluded() {
 		$sql = "SELECT link FROM `$GLOBALS[listTable]` WHERE market_id IS NOT NULL AND 30day_price IS NOT NULL AND 30day_count IS NOT NULL";
-		return $this->fetch_all($this->query($sql));
+		$results = $this->fetch_all($this->query($sql));
+		foreach ($results AS $result) {
+			$arrReturn[] = $result['link'];
+		}
 	}
 }
