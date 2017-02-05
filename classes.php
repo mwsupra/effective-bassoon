@@ -70,16 +70,22 @@ class Actions extends Functions {
 	
 	function __construct() {
 		$this->functions = new Functions();
-		$this->arrTracked = $this->getTracked();
+		//$this->arrTracked = $this->getTracked();
+		$this->updateInterested();
 	}
 	
-	protected function getTracked() {
-		$sql = "SELECT * FROM `$GLOBALS['listTable']` WHERE active = 1";
+	public function getInterested() {
+		$sql = "SELECT * FROM `$GLOBALS[listTable]` WHERE active = 1";
 		return $this->fetch_all($this->query($sql));
 	}
 	
 	public function getExcluded() {
-		$sql = "SELECT link FROM `$GLOBALS['listTable']` WHERE market_id IS NOT NULL AND 30day_price IS NOT NULL AND 30day_count IS NOT NULL";
+		$sql = "SELECT link FROM `$GLOBALS[listTable]` WHERE market_id IS NOT NULL AND 30day_price IS NOT NULL AND 30day_count IS NOT NULL";
 		return $this->fetch_all($this->query($sql));
+	}
+	
+	protected function updateInterested() {
+		$sql = "UPDATE `skin_list` SET `active`= 1 WHERE `30day_price` >= $GLOBALS[lowPrice] AND `30day_price` <= $GLOBALS[highPrice]";
+		$this->query($sql);
 	}
 }
