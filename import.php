@@ -4,7 +4,9 @@ include 'header.php';
 ini_set("allow_url_fopen", 1);
 
 /* */
-//$json = file_get_contents('csgo-skins.txt');
+$json = $actions->MarketDB->getSkinList();
+echo $json;
+exit;
 $arrSkins = json_decode($json);
 foreach ($arrSkins->items AS $skin) {
 	$name = $actions->functions->str_clean($skin->market_name);
@@ -31,6 +33,7 @@ foreach ($arrClean AS $url => $name) {
 			libxml_use_internal_errors(true);
 			$doc->loadHTML($store);
 			$text = $doc->textContent;
+			echo $url;
 			if ($n = strpos($text,'var g_rgAppContextData')) {
 				$a = substr($text,$n);
 				$raw = explode('var ',$a);
