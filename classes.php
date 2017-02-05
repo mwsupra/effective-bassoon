@@ -74,14 +74,26 @@ class Actions extends Functions {
 		$this->updateInterested();
 	}
 	
+<<<<<<< HEAD
 	public function getInterested() {
+=======
+	protected function getTracked() {
+>>>>>>> front_dev
 		$sql = "SELECT * FROM `$GLOBALS[listTable]` WHERE active = 1";
 		return $this->fetch_all($this->query($sql));
 	}
 	
 	public function getExcluded() {
 		$sql = "SELECT link FROM `$GLOBALS[listTable]` WHERE market_id IS NOT NULL AND 30day_price IS NOT NULL AND 30day_count IS NOT NULL";
+<<<<<<< HEAD
 		return $this->fetch_all($this->query($sql));
+=======
+		$results = $this->fetch_all($this->query($sql));
+		foreach ($results AS $result) {
+			$arrReturn[] = $result['link'];
+		}
+		return $arrReturn;
+>>>>>>> front_dev
 	}
 	
 	protected function updateInterested() {
