@@ -1,3 +1,5 @@
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="onload.js" type="text/javascript"></script>
 <?php
 
 include 'header.php';

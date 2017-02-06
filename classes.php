@@ -62,6 +62,21 @@ class Functions {
 		echo 'Error in query: '.$this->functions->marketdb->conn->error."\n\n$sql";
 		exit;
 	}
+	
+	public function cURL($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0');
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
 }
 
 class Actions extends Functions {
@@ -71,13 +86,26 @@ class Actions extends Functions {
 	function __construct() {
 		$this->functions = new Functions();
 		//$this->arrTracked = $this->getTracked();
-		$this->updateInterested();
+		//$this->updateInterested();
 	}
 	public function getSkinList() {
-		return file_get_contents($this->functions->marketdb->api);
+		return json_decode(file_get_contents($this->functions->marketdb->api));
+	}
+	public function getBuyOrders($id) {
+		return json_decode(file_get_contents("http://steamcommunity.com/market/itemordershistogram?country=US&language=english&currency=1&item_nameid=$id&two_factor=0"));
+	}
+	public function getLowestPrice($link) {
+		try {
+            $url = "http://steamcommunity.com/market/priceoverview/?appid=730&county=US&currency=1&market_hash_name=$link";
+			$response = $this->functions->cURL($url);
+            $json = json_decode($response, true);
+            if (isset($json['success']) && $json['success']) {
+                return $json;
+            } else {  }
+        } catch (\Exception $ex) {  }
 	}
 	public function getInterested() {
-		$sql = "SELECT * FROM `$GLOBALS[listTable]` WHERE active = 1";
+		$sql = "SELECT * FROM `$GLOBALS[listTable]` WHERE `30day_price` >= $GLOBALS[lowPrice] AND `30day_price` <= $GLOBALS[highPrice] ORDER BY 30day_price ASC";
 		return $this->fetch_all($this->query($sql));
 	}
 	
@@ -90,8 +118,8 @@ class Actions extends Functions {
 		return $arrReturn;
 	}
 	
-	protected function updateInterested() {
-		$sql = "UPDATE `skin_list` SET `active`= 1 WHERE `30day_price` >= $GLOBALS[lowPrice] AND `30day_price` <= $GLOBALS[highPrice]";
-		$this->query($sql);
-	}
+	// protected function updateInterested() {
+		// $sql = "UPDATE `skin_list` SET `active`= 1 WHERE `30day_price` >= $GLOBALS[lowPrice] AND `30day_price` <= $GLOBALS[highPrice]";
+		// $this->query($sql);
+	// }
 }
