@@ -5,3 +5,5 @@ include '../db_market.php';
 include 'globals.php';
 
 $actions = new Actions();
+
+$testing = false;

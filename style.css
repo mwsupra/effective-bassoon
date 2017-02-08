@@ -1,0 +1,39 @@
+#interested {
+	width: 98%;
+	border-collapse: collapse;
+	margin: 20px;
+}
+
+#interested th, #interested td {
+	padding: 10px;
+	border: 1px solid black;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+#refresh {
+	margin: 20px;
+	width: 100%;
+	text-align:center;
+}
+
+#pages {
+	margin: 20px;
+	width: 100%;
+	text-align:center;
+}
+
+#tabs {
+	width: 100%;
+}
+
+#tabs td {
+	padding: 20px;
+	text-align: center;
+	border: 1px solid black;
+	width: 50%;
+}
+
+#content {
+	width: 800px;
+}

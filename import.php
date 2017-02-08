@@ -3,19 +3,32 @@
 include 'header.php';
 ini_set("allow_url_fopen", 1);
 
-/* */
-$arrSkins = $actions->getSkinList();
-$arrClean = array();
-foreach ($arrSkins->items AS $skin) {
-	$name = $actions->functions->str_clean($skin->market_name);
-	$url = urlencode($name);
-	$url = str_replace('+','%20',$url);
-	if ((substr($url, -3) == '%29' || substr($url,0,9) == '%E2%98%85') && strpos($name, 'Souvenir') != 0 && !strpos($url,'Holo%2FFoil') && !strpos($name,'Graffiti')) {  // These cases should separate out only non souvenir gun skins
-		$arrClean[$url] = $name;
-	} 
+$active = true;
+//$active = false;
+
+if ($active == true) {
+	$arrSkins = $actions->getInterested();
+	foreach ($arrSkins AS $skin) {
+		$arrClean[$skin['link']] = $skin['name'];
+	}
+	$arrNotEmpty = array ();
+} else {
+	$arrSkins = $actions->getSkinList();
+	$arrClean = array();
+	foreach ($arrSkins->items AS $skin) {
+		$name = $actions->functions->str_clean($skin->market_name);
+		$url = urlencode($name);
+		$url = str_replace('+','%20',$url);
+		if ((substr($url, -3) == '%29' || substr($url,0,9) == '%E2%98%85') && strpos($name, 'Souvenir') != 0 && !strpos($url,'Holo%2FFoil') && !strpos($name,'Graffiti')) {  // These cases should separate out only non souvenir gun skins
+			$arrClean[$url] = $name;
+		} 
+	}
+
+	$arrNotEmpty = $actions->getExcluded();
 }
 
-$arrNotEmpty = $actions->getExcluded();
+/* */
+
 
 foreach ($arrClean AS $url => $name) {
 	if (!in_array($url, $arrNotEmpty)) {

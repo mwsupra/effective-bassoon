@@ -92,7 +92,15 @@ class Actions extends Functions {
 		return json_decode(file_get_contents($this->functions->marketdb->api));
 	}
 	public function getBuyOrders($id) {
-		return json_decode(file_get_contents("http://steamcommunity.com/market/itemordershistogram?country=US&language=english&currency=1&item_nameid=$id&two_factor=0"));
+		//return json_decode(file_get_contents("http://steamcommunity.com/market/itemordershistogram?country=US&language=english&currency=1&item_nameid=$id&two_factor=0"));
+		try {
+            $url = "http://steamcommunity.com/market/itemordershistogram?country=US&language=english&currency=1&item_nameid=$id&two_factor=0";
+			$response = $this->functions->cURL($url);
+            $json = json_decode($response, true);
+            if (isset($json['success']) && $json['success']) {
+                return $json;
+            } else {  }
+        } catch (\Exception $ex) {  }
 	}
 	public function getLowestPrice($link) {
 		try {
@@ -118,8 +126,10 @@ class Actions extends Functions {
 		return $arrReturn;
 	}
 	
-	// protected function updateInterested() {
-		// $sql = "UPDATE `skin_list` SET `active`= 1 WHERE `30day_price` >= $GLOBALS[lowPrice] AND `30day_price` <= $GLOBALS[highPrice]";
-		// $this->query($sql);
-	// }
+	protected function updateInterested() {
+		$sql = "UPDATE `skin_list` SET `active` = 0";
+		$this->query($sql);
+		$sql = "UPDATE `skin_list` SET `active` = 1 WHERE `30day_price` >= $GLOBALS[lowPrice] AND `30day_price` <= $GLOBALS[highPrice]";
+		$this->query($sql);
+	}
 }

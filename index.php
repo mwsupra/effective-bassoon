@@ -1,10 +1,11 @@
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script src="onload.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
 <?php
 
 include 'header.php';
-
-echo "<table><tr><td><a href='index.php?a=t'>TRACKED</a></td><td><a href='index.php?a=i'>INTERESTED</a></td></tr></table>";
+echo "<div id='content'>";
+echo "<table id='tabs'><tr><td><a href='index.php?a=t'>TRACKED</a></td><td><a href='index.php?a=i'>INTERESTED</a></td></tr></table>";
 
 if (isset($_GET['a'])) {
 	if ($_GET['a'] == 't') {
@@ -14,6 +15,8 @@ if (isset($_GET['a'])) {
 	}
 }
 
+
+echo "</div>";
 // echo "<table>
 		// <tr>
 			// <th>NAME</th>
